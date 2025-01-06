@@ -1,10 +1,48 @@
+[build-system]
+requires = ["hatchling", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
 [project]
 name = "nasdaq-client"
 version = "0.1.0"
-description = "Add your description here"
+description = "A Python client for the public Nasdaq API"
+license = { file = "LICENSE" }
 readme = "README.md"
-requires-python = ">=3.13"
+authors = [
+    { name = "Joey Chilson", email = "joeychilson@outlook.com" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+]
+requires-python = ">=3.9"
 dependencies = [
     "httpx>=0.28.1",
     "pydantic>=2.10.4",
 ]
+
+
+[project.urls]
+Homepage = "https://github.com/joeychilson/nasdaq-client"
+Documentation = "https://github.com/joeychilson/nasdaq-client/blob/main/README.md"
+Repository = "https://github.com/joeychilson/nasdaq-client.git"
+Issues = "https://github.com/joeychilson/nasdaq-client/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["nasdaq_client"]
+
+[dependency-groups]
+lint = [
+    "ruff>=0.8.6",
+]
+
+[tool.ruff]
+line-length = 120
