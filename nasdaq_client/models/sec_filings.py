@@ -2,6 +2,8 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+from nasdaq_client.models import Status
+
 
 class LatestItem(BaseModel):
     label: str
@@ -47,12 +49,6 @@ class Data(BaseModel):
     headers: Headers
     filterOptions: List[FilterOption]
     rows: List[Row]
-
-
-class Status(BaseModel):
-    rCode: int
-    bCodeMessage: Optional[str]
-    developerMessage: Optional[str]
 
 
 class SecFilings(BaseModel):
