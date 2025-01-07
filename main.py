@@ -1,5 +1,6 @@
 import asyncio
-from nasdaq_client.client import NasdaqClient
+
+from nasdaq_client import NasdaqClient
 
 
 async def main():
