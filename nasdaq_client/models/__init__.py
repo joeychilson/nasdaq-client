@@ -32,7 +32,6 @@ __all__ = [
     "View",
     "Row",
     "Data",
-    "Status",
     "SecFilings",
     "KeyStatItem",
     "PrimaryData",
