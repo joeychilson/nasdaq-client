@@ -5,13 +5,13 @@ from nasdaq_client import NasdaqClient
 
 async def main():
     async with NasdaqClient() as client:
-        filings_data = await client.get_filings("GOOG")
+        filings_data = await client.get_sec_filings("GOOG")
         print(filings_data)
 
-        index_data = await client.get_quote("COMP", asset_class="index")
+        index_data = await client.get_quote_info("COMP", asset_class="index")
         print(index_data)
 
-        stock_data = await client.get_quote("GOOG")
+        stock_data = await client.get_quote_info("GOOG")
         print(stock_data)
 
         market_data = await client.get_market_info()

@@ -1,9 +1,9 @@
 from httpx import AsyncClient, HTTPError, Response as HttpxResponse
 
 from nasdaq_client.models import (
-    FilingsResponse,
     MarketInfoResponse,
-    QuoteResponse,
+    QuoteInfoResponse,
+    SecFilingsResponse,
 )
 
 DEFAULT_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
@@ -50,14 +50,14 @@ class NasdaqClient:
         except HTTPError as e:
             raise NasdaqError(f"HTTP error occurred: {str(e)}") from e
 
-    async def get_filings(
+    async def get_sec_filings(
         self,
         symbol: str,
         limit: int = 14,
         sort_column: str = "filed",
         sort_order: str = "desc",
         is_quote_media: bool = True,
-    ) -> FilingsResponse:
+    ) -> SecFilingsResponse:
         """
         Get SEC filings for a given symbol.
 
@@ -73,7 +73,7 @@ class NasdaqClient:
         """
         url = f"{self.base_url}/company/{symbol}/sec-filings?limit={limit}&sortColumn={sort_column}&sortOrder={sort_order}&isQuoteMedia={str(is_quote_media).lower()}"
         response = await self._get(url)
-        return FilingsResponse.model_validate(response.json())
+        return SecFilingsResponse.model_validate(response.json())
 
     async def get_market_info(self) -> MarketInfoResponse:
         """
@@ -87,11 +87,11 @@ class NasdaqClient:
         response = await self._get(url)
         return MarketInfoResponse.model_validate(response.json())
 
-    async def get_quote(
+    async def get_quote_info(
         self,
         symbol: str,
         asset_class: str = "stocks",
-    ) -> QuoteResponse:
+    ) -> QuoteInfoResponse:
         """
         Get quote information for a given symbol.
 
@@ -105,4 +105,4 @@ class NasdaqClient:
         """
         url = f"{self.base_url}/quote/{symbol}/info?assetclass={asset_class.lower()}"
         response = await self._get(url)
-        return QuoteResponse.model_validate(response.json())
+        return QuoteInfoResponse.model_validate(response.json())

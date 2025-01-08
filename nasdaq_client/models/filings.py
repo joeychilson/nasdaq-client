@@ -51,4 +51,4 @@ class FilingsData(BaseModel):
     rows: List[Row]
 
 
-FilingsResponse = Response[FilingsData]
+SecFilingsResponse = Response[FilingsData]

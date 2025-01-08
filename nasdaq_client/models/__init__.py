@@ -1,6 +1,6 @@
 from .base import Response, Status
 from .filings import (
-    FilingsResponse,
+    SecFilingsResponse,
     FilingsData,
     LatestItem,
     Headers,
@@ -10,7 +10,7 @@ from .filings import (
 )
 from .market import MarketData, MarketInfoResponse
 from .quote import (
-    QuoteResponse,
+    QuoteInfoResponse,
     StockQuote,
     IndexQuote,
     PrimaryData,
@@ -27,7 +27,7 @@ __all__ = [
     "Response",
     "Status",
     # Filings models
-    "FilingsResponse",
+    "SecFilingsResponse",
     "FilingsData",
     "LatestItem",
     "Headers",
@@ -38,7 +38,7 @@ __all__ = [
     "MarketData",
     "MarketInfoResponse",
     # Quote models
-    "QuoteResponse",
+    "QuoteInfoResponse",
     "StockQuote",
     "IndexQuote",
     "PrimaryData",

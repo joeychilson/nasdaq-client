@@ -76,4 +76,4 @@ class IndexQuote(Quote):
     key_stats: IndexKeyStats = Field(..., alias="keyStats")
 
 
-QuoteResponse = Response[Union[StockQuote, IndexQuote]]
+QuoteInfoResponse = Response[Union[StockQuote, IndexQuote]]
