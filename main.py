@@ -5,10 +5,10 @@ from nasdaq_client import NasdaqClient
 
 async def main():
     async with NasdaqClient() as client:
-        index_data = await client.get_quote_info("COMP", asset_class="index")
+        index_data = await client.get_quote("COMP", asset_class="index")
         print(index_data)
 
-        stock_data = await client.get_quote_info("GOOG")
+        stock_data = await client.get_quote("GOOG")
         print(stock_data)
 
 

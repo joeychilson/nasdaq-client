@@ -1,8 +1,15 @@
-from httpx import AsyncClient, HTTPError, Response
+from typing import TypeVar
 
-from nasdaq_client.models import SecFilings, QuoteInfo
+from httpx import AsyncClient, HTTPError, Response as HttpxResponse
+
+from nasdaq_client.models import (
+    FilingsResponse,
+    QuoteResponse,
+)
 
 DEFAULT_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+
+T = TypeVar("T")
 
 
 class NasdaqError(Exception):
@@ -38,7 +45,7 @@ class NasdaqClient:
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
         await self.client.aclose()
 
-    async def _get(self, url: str) -> Response:
+    async def _get(self, url: str) -> HttpxResponse:
         try:
             response = await self.client.get(url)
             response.raise_for_status()
@@ -46,14 +53,14 @@ class NasdaqClient:
         except HTTPError as e:
             raise NasdaqError(f"HTTP error occurred: {str(e)}") from e
 
-    async def get_sec_filings(
+    async def get_filings(
         self,
         symbol: str,
         limit: int = 14,
         sort_column: str = "filed",
         sort_order: str = "desc",
         is_quote_media: bool = True,
-    ) -> SecFilings:
+    ) -> FilingsResponse:
         """
         Get SEC filings for a given symbol.
 
@@ -65,17 +72,17 @@ class NasdaqClient:
             is_quote_media: Whether to include quote media (default is True)
 
         Returns:
-            SecFilings: SEC filings including headers, rows, and data
+            FilingsResponse: SEC filings including headers, rows, and data wrapped in the standard response format
         """
         url = f"{self.base_url}/company/{symbol}/sec-filings?limit={limit}&sortColumn={sort_column}&sortOrder={sort_order}&isQuoteMedia={str(is_quote_media).lower()}"
         response = await self._get(url)
-        return SecFilings.model_validate(response.json())
+        return FilingsResponse.model_validate(response.json())
 
-    async def get_quote_info(
+    async def get_quote(
         self,
         symbol: str,
         asset_class: str = "stocks",
-    ) -> QuoteInfo:
+    ) -> QuoteResponse:
         """
         Get quote information for a given symbol.
 
@@ -84,8 +91,9 @@ class NasdaqClient:
             asset_class: The asset class to query ('stocks' or 'index')
 
         Returns:
-            QuoteInfo: Quote information including price, company details, and market status
+            QuoteResponse: Quote information including price, company details, and market status
+                         wrapped in the standard response format
         """
         url = f"{self.base_url}/quote/{symbol}/info?assetclass={asset_class.lower()}"
         response = await self._get(url)
-        return QuoteInfo.model_validate(response.json())
+        return QuoteResponse.model_validate(response.json())

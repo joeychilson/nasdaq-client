@@ -2,7 +2,7 @@ from typing import List, Literal, Optional, Union
 
 from pydantic import BaseModel
 
-from nasdaq_client.models import Status
+from .base import Response
 
 
 class KeyStatItem(BaseModel):
@@ -52,7 +52,7 @@ class IndexKeyStats(BaseModel):
     dayrange: KeyStatItem
 
 
-class QuoteData(BaseModel):
+class Quote(BaseModel):
     symbol: str
     companyName: str
     stockType: str
@@ -66,17 +66,14 @@ class QuoteData(BaseModel):
     notifications: Optional[List[Notification]] = None
 
 
-class StockQuoteData(QuoteData):
+class StockQuote(Quote):
     assetClass: Literal["STOCKS"]
     keyStats: StockKeyStats
 
 
-class IndexQuoteData(QuoteData):
+class IndexQuote(Quote):
     assetClass: Literal["INDEX"]
     keyStats: IndexKeyStats
 
 
-class QuoteInfo(BaseModel):
-    data: Union[StockQuoteData, IndexQuoteData]
-    message: Optional[str] = None
-    status: Status
+QuoteResponse = Response[Union[StockQuote, IndexQuote]]

@@ -1,8 +1,8 @@
-from typing import List, Optional
+from typing import List
 
 from pydantic import BaseModel
 
-from nasdaq_client.models import Status
+from .base import Response
 
 
 class LatestItem(BaseModel):
@@ -42,7 +42,7 @@ class Row(BaseModel):
     view: View
 
 
-class Data(BaseModel):
+class FilingsData(BaseModel):
     symbol: str
     totalRecords: int
     latest: List[LatestItem]
@@ -51,7 +51,4 @@ class Data(BaseModel):
     rows: List[Row]
 
 
-class SecFilings(BaseModel):
-    data: Data
-    message: Optional[str]
-    status: Status
+FilingsResponse = Response[FilingsData]
