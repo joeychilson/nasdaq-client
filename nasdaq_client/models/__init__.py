@@ -1,4 +1,12 @@
 from .base import Response, Status
+from .dividends import (
+    DividendCalendarResponse,
+    DividendData,
+    Calendar,
+    DividendRow,
+    DividendHeaders,
+    TimeFrame,
+)
 from .filings import (
     SecFilingsResponse,
     FilingsData,
@@ -26,6 +34,13 @@ __all__ = [
     # Base models
     "Response",
     "Status",
+    # Dividend models
+    "DividendCalendarResponse",
+    "DividendData",
+    "Calendar",
+    "DividendRow",
+    "DividendHeaders",
+    "TimeFrame",
     # Filings models
     "SecFilingsResponse",
     "FilingsData",

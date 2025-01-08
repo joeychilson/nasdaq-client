@@ -1,6 +1,7 @@
 from httpx import AsyncClient, HTTPError, Response as HttpxResponse
 
 from nasdaq_client.models import (
+    DividendCalendarResponse,
     MarketInfoResponse,
     QuoteInfoResponse,
     SecFilingsResponse,
@@ -50,30 +51,21 @@ class NasdaqClient:
         except HTTPError as e:
             raise NasdaqError(f"HTTP error occurred: {str(e)}") from e
 
-    async def get_sec_filings(
-        self,
-        symbol: str,
-        limit: int = 14,
-        sort_column: str = "filed",
-        sort_order: str = "desc",
-        is_quote_media: bool = True,
-    ) -> SecFilingsResponse:
+    async def get_dividend_calendar(self, date: str) -> DividendCalendarResponse:
         """
-        Get SEC filings for a given symbol.
+        Get dividend calendar information for a specific date.
 
         Args:
-            symbol: The stock symbol to query (e.g., 'TSLA' or 'COMP')
-            limit: The number of filings to return (default is 14)
-            sort_column: The column to sort by (default is 'filed')
-            sort_order: The order to sort by (default is 'desc')
-            is_quote_media: Whether to include quote media (default is True)
+            date: The date to query dividends for in YYYY-MM-DD format (e.g., '2025-01-07')
 
         Returns:
-            FilingsResponse: SEC filings including headers, rows, and data wrapped in the standard response format
+            DividendCalendarResponse: Dividend calendar information including company details,
+                                    dividend rates, and important dates wrapped in the standard
+                                    response format
         """
-        url = f"{self.base_url}/company/{symbol}/sec-filings?limit={limit}&sortColumn={sort_column}&sortOrder={sort_order}&isQuoteMedia={str(is_quote_media).lower()}"
+        url = f"{self.base_url}/calendar/dividends?date={date}"
         response = await self._get(url)
-        return SecFilingsResponse.model_validate(response.json())
+        return DividendCalendarResponse.model_validate(response.json())
 
     async def get_market_info(self) -> MarketInfoResponse:
         """
@@ -106,3 +98,28 @@ class NasdaqClient:
         url = f"{self.base_url}/quote/{symbol}/info?assetclass={asset_class.lower()}"
         response = await self._get(url)
         return QuoteInfoResponse.model_validate(response.json())
+
+    async def get_sec_filings(
+        self,
+        symbol: str,
+        limit: int = 14,
+        sort_column: str = "filed",
+        sort_order: str = "desc",
+        is_quote_media: bool = True,
+    ) -> SecFilingsResponse:
+        """
+        Get SEC filings for a given symbol.
+
+        Args:
+            symbol: The stock symbol to query (e.g., 'TSLA' or 'COMP')
+            limit: The number of filings to return (default is 14)
+            sort_column: The column to sort by (default is 'filed')
+            sort_order: The order to sort by (default is 'desc')
+            is_quote_media: Whether to include quote media (default is True)
+
+        Returns:
+            FilingsResponse: SEC filings including headers, rows, and data wrapped in the standard response format
+        """
+        url = f"{self.base_url}/company/{symbol}/sec-filings?limit={limit}&sortColumn={sort_column}&sortOrder={sort_order}&isQuoteMedia={str(is_quote_media).lower()}"
+        response = await self._get(url)
+        return SecFilingsResponse.model_validate(response.json())
