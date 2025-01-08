@@ -8,6 +8,7 @@ from .filings import (
     View,
     Row,
 )
+from .market import MarketData, MarketInfoResponse
 from .quote import (
     QuoteResponse,
     StockQuote,
@@ -33,6 +34,9 @@ __all__ = [
     "FilterOption",
     "View",
     "Row",
+    # Market models
+    "MarketData",
+    "MarketInfoResponse",
     # Quote models
     "QuoteResponse",
     "StockQuote",

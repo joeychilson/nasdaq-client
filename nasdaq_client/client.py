@@ -1,15 +1,12 @@
-from typing import TypeVar
-
 from httpx import AsyncClient, HTTPError, Response as HttpxResponse
 
 from nasdaq_client.models import (
     FilingsResponse,
+    MarketInfoResponse,
     QuoteResponse,
 )
 
 DEFAULT_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
-
-T = TypeVar("T")
 
 
 class NasdaqError(Exception):
@@ -77,6 +74,18 @@ class NasdaqClient:
         url = f"{self.base_url}/company/{symbol}/sec-filings?limit={limit}&sortColumn={sort_column}&sortOrder={sort_order}&isQuoteMedia={str(is_quote_media).lower()}"
         response = await self._get(url)
         return FilingsResponse.model_validate(response.json())
+
+    async def get_market_info(self) -> MarketInfoResponse:
+        """
+        Get current market information including trading hours and market status.
+
+        Returns:
+            MarketInfoResponse: Market information including trading hours, status,
+                              and countdown wrapped in the standard response format
+        """
+        url = f"{self.base_url}/market-info"
+        response = await self._get(url)
+        return MarketInfoResponse.model_validate(response.json())
 
     async def get_quote(
         self,

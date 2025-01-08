@@ -11,6 +11,9 @@ async def main():
         stock_data = await client.get_quote("GOOG")
         print(stock_data)
 
+        market_data = await client.get_market_info()
+        print(market_data)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
