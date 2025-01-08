@@ -1,14 +1,14 @@
 from typing import Generic, Optional, TypeVar
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 T = TypeVar("T")
 
 
 class Status(BaseModel):
-    rCode: int
-    bCodeMessage: Optional[str] = None
-    developerMessage: Optional[str] = None
+    return_code: int = Field(..., alias="rCode")
+    return_message: Optional[str] = Field(None, alias="bCodeMessage")
+    developer_message: Optional[str] = Field(None, alias="developerMessage")
 
 
 class Response(BaseModel, Generic[T]):

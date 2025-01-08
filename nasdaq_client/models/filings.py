@@ -1,6 +1,6 @@
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from .base import Response
 
@@ -11,8 +11,8 @@ class LatestItem(BaseModel):
 
 
 class Headers(BaseModel):
-    companyName: str
-    formType: str
+    company_name: str = Field(..., alias="companyName")
+    form_type: str = Field(..., alias="formType")
     filed: str
     period: str
     view: str
@@ -20,23 +20,23 @@ class Headers(BaseModel):
 
 class FilterOption(BaseModel):
     group: str
-    formtype: List[str]
+    form_type: List[str] = Field(..., alias="formtype")
 
 
 class View(BaseModel):
-    htmlLink: str
-    docLink: str
-    pdfLink: str
-    xbrLink: str
-    ixbrlContent: str
-    xlsLink: str
-    xBrlSubDoc: str
+    html_link: str = Field(..., alias="htmlLink")
+    doc_link: str = Field(..., alias="docLink")
+    pdf_link: str = Field(..., alias="pdfLink")
+    xbr_link: str = Field(..., alias="xbrLink")
+    ixbrl_content: str = Field(..., alias="ixbrlContent")
+    xls_link: str = Field(..., alias="xlsLink")
+    xbrl_sub_doc: str = Field(..., alias="xBrlSubDoc")
 
 
 class Row(BaseModel):
-    companyName: str
-    reportingOwner: str
-    formType: str
+    company_name: str = Field(..., alias="companyName")
+    reporting_owner: str = Field(..., alias="reportingOwner")
+    form_type: str = Field(..., alias="formType")
     filed: str
     period: str
     view: View
@@ -44,10 +44,10 @@ class Row(BaseModel):
 
 class FilingsData(BaseModel):
     symbol: str
-    totalRecords: int
+    total_records: int = Field(..., alias="totalRecords")
     latest: List[LatestItem]
     headers: Headers
-    filterOptions: List[FilterOption]
+    filter_options: List[FilterOption] = Field(..., alias="filterOptions")
     rows: List[Row]
 
 
