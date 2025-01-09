@@ -5,7 +5,7 @@ from datetime import datetime
 from .base import Response
 
 
-class DividendHeaders(BaseModel):
+class CalendarHeaders(BaseModel):
     symbol: str
     company_name: str = Field(..., alias="companyName")
     dividend_ex_date: str = Field(..., alias="dividend_Ex_Date")
@@ -16,7 +16,7 @@ class DividendHeaders(BaseModel):
     announcement_date: str = Field(..., alias="announcement_Date")
 
 
-class DividendRow(BaseModel):
+class CalendarRow(BaseModel):
     company_name: str = Field(..., alias="companyName")
     symbol: str
     dividend_ex_date: str = Field(..., alias="dividend_Ex_Date")
@@ -34,13 +34,13 @@ class TimeFrame(BaseModel):
 
 class Calendar(BaseModel):
     as_of: str = Field(..., alias="asOf")
-    headers: DividendHeaders
-    rows: List[DividendRow]
+    headers: CalendarHeaders
+    rows: List[CalendarRow]
 
 
-class DividendData(BaseModel):
+class DividendCalendar(BaseModel):
     calendar: Calendar
     timeframe: TimeFrame
 
 
-DividendCalendarResponse = Response[DividendData]
+DividendCalendarResponse = Response[DividendCalendar]

@@ -1,10 +1,10 @@
 from .base import Response, Status
 from .dividends import (
     DividendCalendarResponse,
-    DividendData,
+    DividendCalendar,
     Calendar,
-    DividendRow,
-    DividendHeaders,
+    CalendarRow,
+    CalendarHeaders,
     TimeFrame,
 )
 from .filings import (
@@ -36,10 +36,10 @@ __all__ = [
     "Status",
     # Dividend models
     "DividendCalendarResponse",
-    "DividendData",
+    "DividendCalendar",
     "Calendar",
-    "DividendRow",
-    "DividendHeaders",
+    "CalendarRow",
+    "CalendarHeaders",
     "TimeFrame",
     # Filings models
     "SecFilingsResponse",
