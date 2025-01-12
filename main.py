@@ -7,8 +7,8 @@ from nasdaq_client import NasdaqClient
 
 async def main():
     async with NasdaqClient() as client:
-        dividend_data = await client.get_dividend_calendar("2025-01-07")
-        print(dividend_data)
+        events = await client.get_economic_events("2025-01-11")
+        print(events)
 
 
 if __name__ == "__main__":

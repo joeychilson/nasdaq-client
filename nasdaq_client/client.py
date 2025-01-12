@@ -2,6 +2,7 @@ from httpx import AsyncClient, HTTPError, Response as HttpxResponse
 
 from nasdaq_client.models import (
     DividendCalendarResponse,
+    EconomicEventsResponse,
     MarketInfoResponse,
     QuoteInfoResponse,
     SecFilingsResponse,
@@ -66,6 +67,22 @@ class NasdaqClient:
         url = f"{self.base_url}/calendar/dividends?date={date}"
         response = await self._get(url)
         return DividendCalendarResponse.model_validate(response.json())
+
+    async def get_economic_events(self, date: str) -> EconomicEventsResponse:
+        """
+        Get economic events calendar for a specific date.
+
+        Args:
+            date: The date to query economic events for in YYYY-MM-DD format (e.g., '2025-01-11')
+
+        Returns:
+            EconomicEventsResponse: Economic events information including event details,
+                                  actual/consensus/previous values, and descriptions wrapped
+                                  in the standard response format
+        """
+        url = f"{self.base_url}/calendar/economicevents?date={date}"
+        response = await self._get(url)
+        return EconomicEventsResponse.model_validate(response.json())
 
     async def get_market_info(self) -> MarketInfoResponse:
         """

@@ -7,7 +7,13 @@ from .dividends import (
     CalendarHeaders,
     TimeFrame,
 )
-from .filings import (
+from .economic_events import (
+    EconomicEventsResponse,
+    EconomicEventsData,
+    EconomicEventHeaders,
+    EconomicEventRow,
+)
+from .sec_filings import (
     SecFilingsResponse,
     FilingsData,
     LatestItem,
@@ -41,6 +47,11 @@ __all__ = [
     "CalendarRow",
     "CalendarHeaders",
     "TimeFrame",
+    # Economic Events models
+    "EconomicEventsResponse",
+    "EconomicEventsData",
+    "EconomicEventHeaders",
+    "EconomicEventRow",
     # Filings models
     "SecFilingsResponse",
     "FilingsData",
